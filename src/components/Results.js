@@ -1,14 +1,27 @@
 import React from "react";
 import Pet from "./Pet";
-import { petfinder } from "./../utils/petFinder";
+import { petfinder } from "../utils/petFinderApi";
+import { Consumer } from "./SearchContext";
+import SearchBox from "./SearchBox";
 
 class Results extends React.Component {
   state = {
     pets: []
   };
+
   componentDidMount() {
+    this.search();
+  }
+
+  search = () => {
+    const { location, animal, breed } = this.props.searchParams;
     petfinder.pet
-      .find({ output: "full", location: "New York City, NY" })
+      .find({
+        output: "full",
+        location,
+        animal,
+        breed
+      })
       .then(data => {
         let pets;
         if (data.petfinder.pets && data.petfinder.pets.pet) {
@@ -25,12 +38,13 @@ class Results extends React.Component {
           pets
         });
       });
-  }
+  };
 
   render() {
     return (
       <React.Fragment>
         <div className="search">
+          <SearchBox search={this.search} />
           {this.state.pets.map(pet => {
             let breed;
             if (Array.isArray(pet.breeds.breed)) {
@@ -56,4 +70,11 @@ class Results extends React.Component {
   }
 }
 
-export default Results;
+// use context this way if you need to access context outside of render method
+export default function ResultsWithContext(props) {
+  return (
+    <Consumer>
+      {context => <Results {...props} searchParams={context} />}
+    </Consumer>
+  );
+}

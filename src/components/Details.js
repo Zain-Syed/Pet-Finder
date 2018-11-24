@@ -1,7 +1,7 @@
 import React from "react";
 import { navigate } from "@reach/router/lib/history";
 import Carousel from "./Carousel";
-import { petfinder } from "./../utils/petFinder";
+import { petfinder } from "../utils/petFinderApi";
 
 class Details extends React.Component {
   state = {
