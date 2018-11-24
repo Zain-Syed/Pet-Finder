@@ -1,0 +1,11 @@
+package-lock.json
+node_modules/
+.cache
+/dist
+.eslintrc.json
+.prettierrc
+notes.txt
+.env
+.babelrc
+yarn.lock
+yarn-error.log
